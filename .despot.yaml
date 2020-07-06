@@ -1,0 +1,8 @@
+requirements:
+  unit:
+    framework: pytest
+    packages:
+    - name: despot
+      testdir: ./tests
+      rulers:
+      - nero
