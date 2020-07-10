@@ -4,7 +4,7 @@ from os import urandom
 from pathlib import Path
 
 from .classes import Despot
-from .util import _DespotRegistry
+from .util.reg import _DespotRegistry
 
 def main():
     dpt = Despot()

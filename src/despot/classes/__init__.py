@@ -3,7 +3,8 @@ from importlib import import_module
 from sys import version_info
 import re
 
-from ..util import walkmodule, _RulerRegistry
+from ..util.walk import walkmodule
+from ..util.reg import _RulerRegistry
 
 PYTHON_LANG = {'python': version_info}
 

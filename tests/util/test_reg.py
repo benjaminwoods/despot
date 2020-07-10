@@ -1,17 +1,9 @@
 import pytest
-from despot.util import (register, walkdir, walkmodule, Singleton,
-                        ABCSingletonMeta, _RulerRegistry, _DespotRegistry)
+from despot.util.reg import (register, Singleton, ABCSingletonMeta,
+                             _RulerRegistry, _DespotRegistry)
 
 @pytest.mark.xfail
 def test_register():
-    pass
-
-@pytest.mark.xfail
-def test_walkdir():
-    pass
-
-@pytest.mark.xfail
-def test_walkmodule():
     pass
 
 @pytest.mark.xfail

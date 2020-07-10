@@ -5,7 +5,7 @@ from os import urandom
 from importlib.machinery import SourceFileLoader
 from types import FunctionType
 
-from .util import walkdir
+from .util.walk import walkdir
 
 def nero(path,name,testdir,language):
     """
