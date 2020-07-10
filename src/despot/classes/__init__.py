@@ -34,6 +34,7 @@ class Despot:
                 language = ruler_cfg.get('lang', PYTHON_LANG)
                 packages = ruler_cfg.get('packages', [{}])
                 testdir = ruler_cfg.get('testdir', '.')
+                ignore = ruler_cfg.get('ignore', [])
                 
                 (lang, version) = next(iter(language.items()))
                 
@@ -46,5 +47,12 @@ class Despot:
                         
                         pkg = import_module(pkgname)
                         
-                        for path, name in walkmodule(pkg):
+                        for path, name in walkmodule(pkg, find_attr=True):
+                            try:
+                                for expr in ignore:
+                                    if re.match(expr,name):
+                                        assert 0
+                            except AssertionError:
+                                continue
+                            
                             self.rulers[ruler](path, name, testdir, language)

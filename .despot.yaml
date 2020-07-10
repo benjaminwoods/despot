@@ -3,6 +3,7 @@ rulers:
   - lang:
       python: 3.7.5
     testdir: ./tests
-    ignore: '.*::.*::_*'
+    ignore:
+    - '.*Registry::fromkeys'
     packages:
     - name: despot
