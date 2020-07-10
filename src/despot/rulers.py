@@ -8,10 +8,21 @@ from types import FunctionType
 from .util import walkdir
 
 def nero(path,name,testdir,language):
-    # Nero
-    # x 1) Tests must exist for all functions and classes, in any test file
-    # o 2) Base object must be explicitly imported at the module level, in
-    #      the test module
+    """
+    Nero.
+    
+    Checks that callables have unit tests.
+    
+    Requirements for passing:
+        - The callable given by `name` must have a unit test with a compliant
+          name, in any source file in the test directory
+        - If the callable exists in the global namespace, it must be
+          explicitly imported in the global namespace in the test source file
+
+    Language requirements:
+        - If the language is Python, this test must be a pytest unit test
+        - (No support for other languages yet!)
+    """
     
     # Split my.module::obj::nestedobj::method
     # into (my.module, (obj, nestedobj, method))
