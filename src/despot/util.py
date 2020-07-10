@@ -50,21 +50,21 @@ def walkmodule(module):
                 and obj.__module__ != module.__name__):
                     continue
             
-            name = '.'.join((module.__name__, handle))
+            name = '::'.join((module.__name__, handle))
             if name in _cache:
                 continue
             
             _cache.append(name)
-            yield name
+            yield Path(module.__file__), name 
         
         if isinstance(obj, ModuleType):
             if '.'.join(obj.__name__.split('.')[:-1]) == module.__name__: 
-                for name in walkmodule(obj):
+                for p, name in walkmodule(obj):
                     if name in _cache:
                         continue
                     
                     _cache.append(name)
-                    yield name
+                    yield p, name
         # !!! Check methods of classes
 
 class Singleton(type):
@@ -83,7 +83,7 @@ class _RulerRegistry(UserDict, metaclass=ABCSingletonMeta):
         if not isinstance(val, FunctionType):
             raise ValueError(f'Ruler must be a function.')
         gfas = getfullargspec(val)
-        if (gfas.args != ['name', 'testdir', 'language']
+        if (gfas.args != ['path', 'name', 'testdir', 'language']
             or gfas.varargs is not None
             or gfas.varkw is not None
             or gfas.defaults is not None
