@@ -34,7 +34,8 @@ def walkdir(root,suf):
             if p.suffix in suf:
                 yield p
 
-def walkmodule(module, skip_internal=False, skip_private=True, find_attr=False):
+def walkmodule(module, skip_internal=True, skip_private=True,
+               find_attr=False):
     # Walk through package/module
     _cache = []
     
@@ -75,6 +76,15 @@ def walkmodule(module, skip_internal=False, skip_private=True, find_attr=False):
                             if len(attr) >= 2:
                                 if attr[:2] == '__':
                                     continue
+                        
+                        # Scan the MRO and ignore all methods which
+                        # are inherited and not overwritten
+                        try:
+                            for cls in obj.__mro__[1:]:
+                                if getattr(cls, attr, None) is getattr(obj, attr):
+                                    assert 0
+                        except AssertionError:
+                            continue
                         
                         name = '::'.join((module.__name__, handle, attr))
                         yield Path(module.__file__), name
