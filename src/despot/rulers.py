@@ -7,7 +7,7 @@ from types import FunctionType
 
 from .util.walk import walkdir
 
-def nero(path,name,testdir,language):
+def nero(path,name,language,**options):
     """
     Nero.
     
@@ -23,6 +23,10 @@ def nero(path,name,testdir,language):
         - If the language is Python, this test must be a pytest unit test
         - (No support for other languages yet!)
     """
+    
+    testdir = options.get('testdir', None)
+    if testdir is None:
+        raise ValueError('Test directory required.')
     
     # Split my.module::obj::nestedobj::method
     # into (my.module, (obj, nestedobj, method))

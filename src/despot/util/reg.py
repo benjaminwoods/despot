@@ -33,9 +33,9 @@ class _RulerRegistry(UserDict, metaclass=ABCSingletonMeta):
         if not isinstance(val, FunctionType):
             raise ValueError(f'Ruler must be a function.')
         gfas = getfullargspec(val)
-        if (gfas.args != ['path', 'name', 'testdir', 'language']
+        if (gfas.args != ['path', 'name', 'language']
             or gfas.varargs is not None
-            or gfas.varkw is not None
+            or gfas.varkw != 'options'
             or gfas.defaults is not None
             or gfas.kwonlyargs != []
             or gfas.kwonlydefaults is not None):

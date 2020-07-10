@@ -34,8 +34,10 @@ class Despot:
             for ruler_cfg in ruler_cfgs:
                 language = ruler_cfg.get('lang', PYTHON_LANG)
                 packages = ruler_cfg.get('packages', [{}])
-                testdir = ruler_cfg.get('testdir', '.')
                 ignore = ruler_cfg.get('ignore', [])
+                
+                options = {k:v for k,v in ruler_cfg.items() if k not in
+                           ('lang', 'packages', 'ignore')}
                 
                 (lang, version) = next(iter(language.items()))
                 
@@ -56,4 +58,4 @@ class Despot:
                             except AssertionError:
                                 continue
                             
-                            self.rulers[ruler](path, name, testdir, language)
+                            self.rulers[ruler](path, name, language, **options)
