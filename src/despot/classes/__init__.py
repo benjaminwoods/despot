@@ -9,9 +9,12 @@ PYTHON_LANG = {'python': version_info}
 class Despot:
     def __init__(self, language=PYTHON_LANG):
         self.config = self.__class__.__loadConfig()
-        self.rulers = _RulerRegistry()
         self.language = language
-
+    
+    @property
+    def rulers(self):
+        return _RulerRegistry()
+    
     @classmethod
     def __loadConfig(cls):
         with open('.despot.yaml') as fp:
@@ -33,13 +36,13 @@ class Despot:
             self.unit()
     
     def unit(self):
-        cfg = self.config['requirements']['unit']
-        if cfg['framework'] == 'pytest':
+        unit_cfg = self.config['requirements']['unit']
+        if unit_cfg['framework'] == 'pytest':
             self.pytest()
     
     def pytest(self):
-        cfg = self.config['requirements']['unit']
-        packages = cfg.get('packages', [{}])
+        unit_cfg = self.config['requirements']['unit']
+        packages = unit_cfg.get('packages', [{}])
         
         for pkg in packages:
             # Output to stdout
@@ -50,5 +53,5 @@ class Despot:
             
             pkg = import_module(pkgname)
             
-            for name in walkmodule(pkg):
-                self.rulers['nero'](name, testdir, self.language)
+            for path, name in walkmodule(pkg):
+                self.rulers['nero'](path, name, testdir, self.language)
