@@ -30,21 +30,30 @@ def nero(path,name,testdir,language):
     obj = baseobj
     for attr in attrs:
         obj = getattr(obj, attr)
-    objname = base_objname if attrs == [] else attr
+    objname = '.'.join(objname_withscope)
     
     if not callable(obj):
         # Only check callable objects for tests
         return
+    
+    # testname
+    if isinstance(obj, type):
+        # If a class or metaclass
+        testname = f'Test_{objname}'
+        objtype = 'class'
+    elif isinstance(obj, FunctionType):
+        # If a function
+        testname = f'test_{objname}'
+        objtype = 'function'
     else:
-        if isinstance(obj, type):
-            # If a class or metaclass
-            prefix = 'Test'
-            objtype = 'class'
-        elif isinstance(obj, FunctionType):
-            # If a function
-            prefix = 'test'
-            objtype = 'function'
-
+        objtype = 'function'
+    
+    # If attribute of a class, override testname
+    if len(objname_withscope) > 1:
+        _start = '::'.join(map(lambda x: f'Test_{x}',
+                              objname_withscope[:-1]))
+        testname = f'{_start}::test_{objname_withscope[-1]}'
+    
     passing = [False, False]
     for t in walkdir(testdir,'.py'):
         if not all(passing):
@@ -54,7 +63,12 @@ def nero(path,name,testdir,language):
             loader = SourceFileLoader(rand_modname, str(t.absolute()))
             _testmod = loader.load_module(rand_modname)
             
-            testobj = getattr(_testmod, f'{prefix}_{objname}', None)
+            testobj = _testmod
+            for attr in testname.split('::'):
+                if not hasattr(testobj, attr):
+                    break
+                testobj = getattr(testobj, attr)
+            
             if objtype == 'class':
                 if isinstance(testobj, type):
                     passing[0] = True
