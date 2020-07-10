@@ -17,7 +17,7 @@ setup(
 
     package_dir={'':'src'},
     packages=['despot'],
-    install_requires=[],
+    install_requires=['radon>=4.1.0'],
     entry_points={
         'console_scripts': ['despot=despot.__main__:main'],
     },

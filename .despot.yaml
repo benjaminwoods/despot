@@ -5,5 +5,6 @@ rulers:
     testdir: ./tests
     ignore:
     - '.*Registry::fromkeys'
+    - '.*radoninteg::.*'
     packages:
     - name: despot

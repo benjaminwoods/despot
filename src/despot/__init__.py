@@ -8,5 +8,7 @@ from . import classes
 from .util.reg import register
 from .classes import Despot
 
-register(rulers.nero, 'nero')
+for ruler in ('cleopatra', 'joan', 'nero'):
+    register(getattr(rulers, ruler), ruler)
+
 register(classes.Despot, 'Despot')
