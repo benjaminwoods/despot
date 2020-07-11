@@ -1,4 +1,4 @@
-from importlib import import_module
+from importlib.machinery import SourceFileLoader
 from base64 import urlsafe_b64encode
 from os import urandom
 from pathlib import Path
@@ -15,12 +15,12 @@ def main():
         rand_modname = rand_modname.decode('utf-8')
         loader = SourceFileLoader(rand_modname, str(p.absolute()))
         loader.load_module(rand_modname)
-    
+
     who = dpt.config.get('who', 'Despot')
     if who != 'Despot':
         dpt = _DespotRegistry()
-    
+
     dpt.run()
-        
+
 if __name__ == '__main__':
     SystemExit(main())
