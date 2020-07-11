@@ -1,3 +1,7 @@
+.. image:: https://readthedocs.org/projects/despot/badge/?version=latest
+   :target: https://despot.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
 **Currently in pre-alpha!**
 
 Codify programming standards and regulations as well... code!
