@@ -2,8 +2,8 @@
 Despot.
 """
 
-from . import rulers, util
-from . import classes
+from . import util
+from . import rulers, classes
 
 # Shorthand
 Despot = classes.Despot
