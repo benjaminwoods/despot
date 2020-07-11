@@ -2,6 +2,9 @@
 despot
 ######
 
+.. image:: https://travis-ci.org/benjaminwoods/despot.svg?branch=master
+   :target: https://travis-ci.org/benjaminwoods/despot
+   :alt: Build Status
 .. image:: https://readthedocs.org/projects/despot/badge/?version=latest
    :target: https://despot.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
