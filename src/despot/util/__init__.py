@@ -1,3 +1,3 @@
-from . import (reg, walk)
+from . import (reg, walk, radoninteg)
 
-__all__ = ['reg', 'walk']
+__all__ = ['reg', 'walk', 'radoninteg']

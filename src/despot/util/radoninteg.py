@@ -1,4 +1,4 @@
-#radon integration
+# radon integration
 
 from radon.cli import Config, FileConfig
 from radon.cli.harvest import CCHarvester
@@ -7,13 +7,14 @@ import radon.complexity as cc_mod
 
 _cfg = FileConfig()
 
+
 def ccjson(paths):
     """
     Modified version of radon.cli.cc.
-    
+
     This silently returns the digest as a JSON (string).
     """
-    
+
     config = Config(
         min=_cfg.get_value('cc_min', str, 'A').upper(),
         max=_cfg.get_value('cc_max', str, 'F').upper(),
@@ -30,7 +31,7 @@ def ccjson(paths):
         include_ipynb=_cfg.get_value('include_ipynb', bool, False),
         ipynb_cells=_cfg.get_value('ipynb_cells', bool, False)
     )
-    
+
     harvester = CCHarvester(paths, config)
-    
+
     return harvester.as_json()

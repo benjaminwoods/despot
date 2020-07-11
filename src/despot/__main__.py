@@ -6,6 +6,7 @@ from pathlib import Path
 from .classes import Despot
 from .util.reg import _DespotRegistry
 
+
 def main():
     dpt = Despot()
     hooks = dpt.config.get('hooks', [])
@@ -21,6 +22,7 @@ def main():
         dpt = _DespotRegistry()
 
     dpt.run()
+
 
 if __name__ == '__main__':
     SystemExit(main())
