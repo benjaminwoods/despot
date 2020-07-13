@@ -1,16 +1,21 @@
 import yaml
 from importlib import import_module
 from sys import version_info
+import re
 
-from ..util import walkmodule, _RulerRegistry
+from ..util.walk import walkmodule
+from ..util.reg import _RulerRegistry
 
 PYTHON_LANG = {'python': version_info}
 
+
 class Despot:
-    def __init__(self, language=PYTHON_LANG):
+    def __init__(self):
         self.config = self.__class__.__loadConfig()
-        self.rulers = _RulerRegistry()
-        self.language = language
+
+    @property
+    def rulers(self):
+        return _RulerRegistry()
 
     @classmethod
     def __loadConfig(cls):
@@ -25,30 +30,33 @@ class Despot:
     def run(self):
         # Data validation step
         pass
-        
-        if 'unit' in self.config['requirements']:
-            # Data validation step
-            pass
-        
-            self.unit()
-    
-    def unit(self):
-        cfg = self.config['requirements']['unit']
-        if cfg['framework'] == 'pytest':
-            self.pytest()
-    
-    def pytest(self):
-        cfg = self.config['requirements']['unit']
-        packages = cfg.get('packages', [{}])
-        
-        for pkg in packages:
-            # Output to stdout
-            pass
-            
-            pkgname = pkg.get('name', '.')
-            testdir = pkg.get('testdir', '.')
-            
-            pkg = import_module(pkgname)
-            
-            for name in walkmodule(pkg):
-                self.rulers['nero'](name, testdir, self.language)
+
+        for ruler, ruler_cfgs in self.config.get('rulers', {}).items():
+            for ruler_cfg in ruler_cfgs:
+                language = ruler_cfg.get('lang', PYTHON_LANG)
+                packages = ruler_cfg.get('packages', [{}])
+                ignore = ruler_cfg.get('ignore', [])
+
+                options = {k: v for k, v in ruler_cfg.items() if k not in
+                           ('lang', 'packages', 'ignore')}
+
+                (lang, version) = next(iter(language.items()))
+
+                if lang == 'python':
+                    for pkg in packages:
+                        # Output to stdout
+                        pass
+
+                        pkgname = pkg.get('name', '.')
+
+                        pkg = import_module(pkgname)
+
+                        for path, name in walkmodule(pkg, find_attr=True):
+                            try:
+                                for expr in ignore:
+                                    if re.match(expr, name):
+                                        assert 0
+                            except AssertionError:
+                                continue
+
+                            self.rulers[ruler](path, name, language, **options)

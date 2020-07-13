@@ -1,8 +1,10 @@
-requirements:
-  unit:
-    framework: pytest
+rulers:
+  nero:
+  - lang:
+      python: 3.7.5
+    testdir: ./tests
+    ignore:
+    - '.*Registry::fromkeys'
+    - '.*radoninteg::.*'
     packages:
     - name: despot
-      testdir: ./tests
-      rulers:
-      - nero

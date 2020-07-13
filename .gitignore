@@ -1,3 +1,6 @@
 __pycache__
 .spyproject
+.pylint.d
+.pytest_cache
 *.egg-info
+docs/build

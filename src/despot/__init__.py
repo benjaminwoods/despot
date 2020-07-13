@@ -2,11 +2,17 @@
 Despot.
 """
 
-from . import rulers, util
-from . import classes
+from . import util
+from . import rulers, classes
 
-from .util import register
-from .classes import Despot
+# Shorthand
+Despot = classes.Despot
+register = util.reg.register
 
-register(rulers.nero, 'nero')
-register(classes.Despot, 'Despot')
+for ruler in ('cleopatra', 'joan', 'nero'):
+    register(getattr(rulers, ruler), ruler)
+
+register(Despot, 'Despot')
+
+__all__ = ['rulers', 'util', 'classes',
+           'Despot']
